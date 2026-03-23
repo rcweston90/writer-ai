@@ -31,6 +31,7 @@ export function Editor({ onTextChange }: EditorProps) {
       }),
       CharacterCount,
     ],
+    immediatelyRender: false,
     editorProps: {
       attributes: {
         class:
