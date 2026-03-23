@@ -1,17 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import dynamic from "next/dynamic";
+import { useState, useCallback, useEffect } from "react";
 import { PersonaPicker } from "@/components/PersonaPicker";
 import { CritiquePanel } from "@/components/CritiquePanel";
 import { Persona, CritiqueResult } from "@/lib/types";
-
-const Editor = dynamic(() => import("@/components/Editor").then(m => ({ default: m.Editor })), {
-  ssr: false,
-  loading: () => (
-    <div style={{ padding: "2rem", color: "#a8a29e" }}>Loading editor...</div>
-  ),
-});
 
 export default function Home() {
   const [plainText, setPlainText] = useState("");
@@ -22,6 +14,15 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [EditorComponent, setEditorComponent] = useState<React.ComponentType<{
+    onTextChange: (text: string, html: string) => void;
+  }> | null>(null);
+
+  useEffect(() => {
+    import("@/components/Editor").then((mod) => {
+      setEditorComponent(() => mod.Editor);
+    });
+  }, []);
 
   const handleTextChange = useCallback((text: string, _html: string) => {
     setPlainText(text);
@@ -101,7 +102,11 @@ export default function Home() {
           </button>
         </header>
         <div style={{ flex: 1, overflow: "hidden" }}>
-          <Editor onTextChange={handleTextChange} />
+          {EditorComponent ? (
+            <EditorComponent onTextChange={handleTextChange} />
+          ) : (
+            <div style={{ padding: "2rem", color: "#a8a29e" }}>Loading editor...</div>
+          )}
         </div>
       </div>
 
