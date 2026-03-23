@@ -34,8 +34,7 @@ export function Editor({ onTextChange }: EditorProps) {
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        class:
-          "prose prose-stone max-w-none focus:outline-none min-h-[60vh] px-8 py-6",
+        class: "tiptap-editor",
       },
     },
     onUpdate: ({ editor }) => {
@@ -47,14 +46,24 @@ export function Editor({ onTextChange }: EditorProps) {
   const charCount = editor?.storage.characterCount?.characters() ?? 0;
 
   return (
-    <div className="flex flex-col h-full">
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <Toolbar editor={editor} />
-      <div className="flex-1 overflow-y-auto bg-white">
-        <div className="max-w-3xl mx-auto">
+      <div style={{ flex: 1, overflowY: "auto", backgroundColor: "#fff" }}>
+        <div style={{ maxWidth: "48rem", margin: "0 auto" }}>
           <EditorContent editor={editor} />
         </div>
       </div>
-      <div className="border-t border-stone-200 px-4 py-2 text-xs text-stone-400 flex gap-4 bg-stone-50">
+      <div
+        style={{
+          borderTop: "1px solid #e7e5e4",
+          padding: "8px 16px",
+          fontSize: "0.75rem",
+          color: "#a8a29e",
+          display: "flex",
+          gap: "16px",
+          backgroundColor: "#fafaf9",
+        }}
+      >
         <span>{wordCount} words</span>
         <span>{charCount} characters</span>
       </div>

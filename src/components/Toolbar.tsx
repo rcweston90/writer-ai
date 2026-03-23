@@ -1,10 +1,21 @@
 "use client";
 
 import { Editor } from "@tiptap/react";
+import { CSSProperties } from "react";
 
 interface ToolbarProps {
   editor: Editor | null;
 }
+
+const btnBase: CSSProperties = {
+  padding: "4px 8px",
+  borderRadius: "4px",
+  fontSize: "0.875rem",
+  fontWeight: 500,
+  border: "none",
+  cursor: "pointer",
+  transition: "background-color 0.15s",
+};
 
 function ToolbarButton({
   onClick,
@@ -25,11 +36,13 @@ function ToolbarButton({
       onClick={onClick}
       disabled={disabled}
       title={title}
-      className={`px-2 py-1.5 rounded text-sm font-medium transition-colors ${
-        active
-          ? "bg-stone-800 text-white"
-          : "text-stone-600 hover:bg-stone-200"
-      } ${disabled ? "opacity-30 cursor-not-allowed" : "cursor-pointer"}`}
+      style={{
+        ...btnBase,
+        backgroundColor: active ? "#1c1917" : "transparent",
+        color: active ? "#fff" : "#57534e",
+        opacity: disabled ? 0.3 : 1,
+        cursor: disabled ? "not-allowed" : "pointer",
+      }}
     >
       {children}
     </button>
@@ -37,14 +50,33 @@ function ToolbarButton({
 }
 
 function Divider() {
-  return <div className="w-px h-6 bg-stone-200 mx-1" />;
+  return (
+    <div
+      style={{
+        width: "1px",
+        height: "24px",
+        backgroundColor: "#e7e5e4",
+        margin: "0 4px",
+      }}
+    />
+  );
 }
 
 export function Toolbar({ editor }: ToolbarProps) {
   if (!editor) return null;
 
   return (
-    <div className="border-b border-stone-200 bg-stone-50 px-3 py-1.5 flex items-center gap-0.5 flex-wrap">
+    <div
+      style={{
+        borderBottom: "1px solid #e7e5e4",
+        backgroundColor: "#fafaf9",
+        padding: "6px 12px",
+        display: "flex",
+        alignItems: "center",
+        gap: "2px",
+        flexWrap: "wrap",
+      }}
+    >
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleBold().run()}
         active={editor.isActive("bold")}
@@ -78,33 +110,27 @@ export function Toolbar({ editor }: ToolbarProps) {
         active={editor.isActive("highlight")}
         title="Highlight"
       >
-        <span className="bg-yellow-200 px-0.5">H</span>
+        <span style={{ backgroundColor: "#fef08a", padding: "0 2px" }}>H</span>
       </ToolbarButton>
 
       <Divider />
 
       <ToolbarButton
-        onClick={() =>
-          editor.chain().focus().toggleHeading({ level: 1 }).run()
-        }
+        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         active={editor.isActive("heading", { level: 1 })}
         title="Heading 1"
       >
         H1
       </ToolbarButton>
       <ToolbarButton
-        onClick={() =>
-          editor.chain().focus().toggleHeading({ level: 2 }).run()
-        }
+        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         active={editor.isActive("heading", { level: 2 })}
         title="Heading 2"
       >
         H2
       </ToolbarButton>
       <ToolbarButton
-        onClick={() =>
-          editor.chain().focus().toggleHeading({ level: 3 }).run()
-        }
+        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
         active={editor.isActive("heading", { level: 3 })}
         title="Heading 3"
       >

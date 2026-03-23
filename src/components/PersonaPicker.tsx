@@ -8,43 +8,50 @@ interface PersonaPickerProps {
   onSelect: (persona: Persona) => void;
 }
 
-const colorMap: Record<string, string> = {
-  amber: "border-amber-400 bg-amber-50 ring-amber-400",
-};
-
-const colorMapIdle: Record<string, string> = {
-  amber: "border-stone-200 hover:border-amber-300 hover:bg-amber-50/50",
-};
-
 export function PersonaPicker({ selected, onSelect }: PersonaPickerProps) {
   return (
-    <div className="space-y-2">
-      <h3 className="text-xs font-semibold uppercase tracking-wider text-stone-400">
+    <div>
+      <h3
+        style={{
+          fontSize: "0.75rem",
+          fontWeight: 600,
+          textTransform: "uppercase",
+          letterSpacing: "0.05em",
+          color: "#a8a29e",
+          marginBottom: "8px",
+        }}
+      >
         Choose your critic
       </h3>
-      <div className="grid gap-2">
+      <div style={{ display: "grid", gap: "8px" }}>
         {personaList.map((persona) => {
           const isSelected = selected === persona.id;
           return (
             <button
               key={persona.id}
               onClick={() => onSelect(persona)}
-              className={`text-left p-3 rounded-lg border-2 transition-all cursor-pointer ${
-                isSelected
-                  ? `${colorMap[persona.color] ?? "border-stone-400 bg-stone-50 ring-stone-400"} ring-1`
-                  : `${colorMapIdle[persona.color] ?? "border-stone-200 hover:border-stone-300"}`
-              }`}
+              style={{
+                textAlign: "left",
+                padding: "12px",
+                borderRadius: "8px",
+                border: isSelected ? "2px solid #f59e0b" : "2px solid #e7e5e4",
+                backgroundColor: isSelected ? "#fffbeb" : "#fff",
+                cursor: "pointer",
+                transition: "all 0.15s",
+              }}
             >
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">{persona.avatar}</span>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <span style={{ fontSize: "1.5rem" }}>{persona.avatar}</span>
                 <div>
-                  <div className="font-semibold text-stone-900 text-sm">
+                  <div style={{ fontWeight: 600, color: "#1c1917", fontSize: "0.875rem" }}>
                     {persona.name}
                   </div>
-                  <div className="text-xs text-stone-500">{persona.years}</div>
+                  <div style={{ fontSize: "0.75rem", color: "#78716c" }}>
+                    {persona.years}
+                  </div>
                 </div>
               </div>
-              <p className="text-xs text-stone-500 mt-1.5">
+              <p style={{ fontSize: "0.75rem", color: "#78716c", marginTop: "6px" }}>
                 {persona.description}
               </p>
             </button>

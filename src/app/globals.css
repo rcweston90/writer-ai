@@ -19,8 +19,14 @@ body {
 }
 
 /* Tiptap editor styles */
+.tiptap-editor,
 .tiptap {
   outline: none;
+  min-height: 60vh;
+  padding: 24px 32px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #1c1917;
 }
 
 .tiptap p.is-editor-empty:first-child::before {
